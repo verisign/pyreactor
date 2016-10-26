@@ -12,6 +12,7 @@ Reactor design pattern with [add-ons](#about)
 * [Usage](#usage)
 * [Cookbook](#cookbook)
 * [Unit Tests](#unit-tests)
+* [License](#license)
 * [Aside](#aside)
 
 ## About
