@@ -12,6 +12,7 @@ Reactor design pattern with [add-ons](#about)
 * [Usage](#usage)
 * [Cookbook](#cookbook)
 * [Unit Tests](#unit-tests)
+* [Aside](#aside)
 
 ## About
 Implements the [reactor pattern](./docs/main.md#reactor-design-pattern) with the following add-on's:
@@ -162,3 +163,11 @@ python cookbook/no_stop_on_error_pyreactor.py
 ```bash
 py.test tests --color=yes -s --verbose -r X
 ```
+
+##  License
+
+The project is licensed under the BSD-3 license.
+
+## Aside
+- The code hasn't been tested to be thread safe.
+- No tasks can be 'None'; it's a token to signal end of tasks.

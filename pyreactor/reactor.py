@@ -59,7 +59,7 @@ class Reactor(object):
         :param stop_on_error: stop all workers if there is an exception in any
                              one of them.
         :type stop_on_error: bool
-        :param parallelism: degree of parallelism
+        :param parallelism: degree of parallelism.
         :type parallelism: int
         :param result_timeout: time to wait (secs) for result of a task.
 
@@ -76,7 +76,7 @@ class Reactor(object):
         # if true; run enslaved task
         self.__fire = False
 
-        # a pool of workers.
+        # a pool of workers
         self.__workers = []
 
         # a bunch of tasks
@@ -85,7 +85,7 @@ class Reactor(object):
         # results of tasks
         self.__results = multiprocessing.Queue()
 
-        # results to be returned to the caller.
+        # results to be returned to the caller
         self.final_results = []
 
         # any errors
@@ -103,7 +103,7 @@ class Reactor(object):
         # error by any of the workers
         self.error = None
 
-        # set to indicate that the reactor is unusable.
+        # set to indicate that the reactor is unusable
         self.spent = False
 
     def run(self, tasks, action,
@@ -132,8 +132,12 @@ class Reactor(object):
         # enslave the action.
         self.__action = action
 
-        log_msg = "{} worker(s) work on {} tasks.".format(self.parallelism,
-                                                          len(tasks))
+        if len(self.tasks) < self.parallelism:
+            log_msg = "{} worker(s) work on {} tasks.".format(len(self.tasks),
+                                                              len(tasks))
+        else:
+            log_msg = "{} worker(s) work on {} tasks.".format(self.parallelism,
+                                                              len(tasks))
         logger.info(log_msg)
         log_msg = "Start time: {}".format(time.strftime(_time_format))
         logger.info(log_msg)
@@ -194,6 +198,7 @@ class Reactor(object):
         :rtype: None
         """
         self.tasks = tasks
+        _poison_pill_ct = 0
 
         log_msg = 'Loading up task queue.'
         logger.debug(log_msg)
@@ -202,11 +207,17 @@ class Reactor(object):
             self.__tasks.put(_task)
 
         # line up poison pills.
-        for i in xrange(self.parallelism):
-            self.__tasks.put(None)
+        if len(self.tasks) < self.parallelism:
+            for i in xrange(len(self.tasks)):
+                self.__tasks.put(None)
+                _poison_pill_ct += 1
+        else:
+            for i in xrange(self.parallelism):
+                self.__tasks.put(None)
+                _poison_pill_ct += 1
 
         log_msg = 'Loaded task queue with {} tasks '.format(len(tasks))
-        log_msg += 'and {} poison pills.'.format(self.parallelism)
+        log_msg += 'and {} poison pills.'.format(_poison_pill_ct)
         logger.debug(log_msg)
 
     def __run_workers(self):
@@ -219,12 +230,24 @@ class Reactor(object):
         # light the fuse.
         self.__fire = True
 
-        for i in xrange(self.parallelism):
-            self.__workers.append(
-                # multiprocessing.Process(target=self.__action,
-                #                         name='worker_%s' % i))
-                multiprocessing.Process(target=self.__enslave,
-                                        name='worker_%s' % i))
+        if len(self.tasks) < self.parallelism:
+            log_msg = 'Fewer tasks than parallelism; spawning fewer workers.'
+            logger.info(log_msg)
+
+            for i in xrange(len(self.tasks)):
+                self.__workers.append(
+                    # multiprocessing.Process(target=self.__action,
+                    #                         name='worker_%s' % i))
+                    multiprocessing.Process(target=self.__enslave,
+                                            name='worker_%s' % i))
+
+        else:
+            for i in xrange(self.parallelism):
+                self.__workers.append(
+                    # multiprocessing.Process(target=self.__action,
+                    #                         name='worker_%s' % i))
+                    multiprocessing.Process(target=self.__enslave,
+                                            name='worker_%s' % i))
 
         log_msg = 'Initialized {} workers.'.format(len(self.__workers))
         logger.info(log_msg)

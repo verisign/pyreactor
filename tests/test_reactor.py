@@ -242,7 +242,7 @@ class TestReactor(object):
         _exception_str = "TypeError: cannot concatenate 'str' and 'int' objects"
         assert _exception_str in str(exc_info.value)
 
-    def test_stop_on_error_reactor_with_exceptions_with_correlation(
+    def test_stop_on_error_reactor_with_exceptions_with_correlation_2(
             self, get_stop_on_error_reactor):
         _reactor = get_stop_on_error_reactor
 
@@ -256,3 +256,21 @@ class TestReactor(object):
             # log_msg = 'Had an exception in the end!!'
             # logger.info(log_msg)
             pass
+
+    def test_no_stop_on_error_reactor_fewer_tasks_than_workers(
+            self, get_no_stop_on_error_reactor):
+        """
+        test a no-stop-on-error reactor
+
+        :param get_no_stop_on_error_reactor: fixture; a no stop on error reactor
+        :type get_no_stop_on_error_reactor: reactor.Reactor
+        :return:
+        """
+        _reactor = get_no_stop_on_error_reactor
+
+        _tasks = [1, 2, 3]
+
+        _results = _reactor.run(action=add_5, tasks=_tasks)
+
+        assert isinstance(_results, list)
+        assert set(_results) == {6, 7, 8}
