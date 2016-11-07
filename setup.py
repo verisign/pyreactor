@@ -14,6 +14,7 @@ setup(
     install_requires=[],
     # Data for PyPi.
     url="https://github.vrsn.com/EdgeopsChecks/pyreactor",
+    author='Kinnar Dattani',
     author_email="kdattani@verisign.com",
     zip_safe=True,
 )
