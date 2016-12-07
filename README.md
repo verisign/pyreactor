@@ -63,26 +63,26 @@ import time
 from pyreactor.reactor import Reactor
 
 def add_5(x):
-    _sleep_secs = 5
+    sleep_secs = 5
     log_msg = 'consumer pid {} - '.format(os.getpid())
     log_msg += 'Adding 5 to {}; after sleeping for {} secs'.format(x,
-                                                                   _sleep_secs)
+                                                                   sleep_secs)
     print log_msg
-    time.sleep(_sleep_secs)
+    time.sleep(sleep_secs)
     return x + 5
 
 def main():
     # no-stop-on-error reactor; continue processing even if one consumer fails
     # result_timeout = max time taken to complete 1 task.
-    _reactor = Reactor(stop_on_error=False, parallelism=2,
+    reactor = Reactor(stop_on_error=False, parallelism=2,
                        result_timeout=10)
 
     # five tasks; will error on first one
-    _tasks = ['1', 2, 3, 4, 5]
+    tasks = ['1', 2, 3, 4, 5]
 
-    _results = _reactor.run(action=add_5, tasks=_tasks)
+    results = reactor.run(action=add_5, tasks=    tasks)
 
-    print _results
+    print results
     
 if __name__ == '__main__':
     main()
@@ -103,25 +103,25 @@ import time
 from pyreactor.reactor import Reactor
 
 def add_5(x):
-    _sleep_secs = 5
+    sleep_secs = 5
     log_msg = 'consumer pid {} - '.format(os.getpid())
     log_msg += 'Adding 5 to {}; after sleeping for {} secs'.format(x,
-                                                                   _sleep_secs)
+                                                                   sleep_secs)
     print log_msg
-    time.sleep(_sleep_secs)
+    time.sleep(sleep_secs)
     return x + 5
 
 def main():
     # five tasks; will error on first one
-    _tasks = ['1', 2, 3, 4, 5]
+    tasks = ['1', 2, 3, 4, 5]
 
     # stop-on-error reactor; stop processing even if one consumer fails
-    _reactor = Reactor(stop_on_error=True, parallelism=2,
+    reactor = Reactor(stop_on_error=True, parallelism=2,
                        result_timeout=10)
 
-    _results = _reactor.run(action=add_5, tasks=_tasks)
+    results = reactor.run(action=add_5, tasks=tasks)
 
-    print _results
+    print results
     
 if __name__ == '__main__':
     main()
@@ -133,7 +133,7 @@ Traceback (most recent call last):
   File "stop_on_error_pyreactor.py", line 60, in <module>
     main()
   File "stop_on_error_pyreactor.py", line 54, in main
-    _results = _reactor.run(action=add_5, tasks=_tasks)
+    results = _reactor.run(action=add_5, tasks=tasks)
   File "../pyreactor/reactor.py", line 178, in run
     raise Error(self.error)
 pyreactor.Error: Traceback (most recent call last):
