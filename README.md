@@ -24,7 +24,7 @@ Implements the [reactor pattern](./docs/main.md#reactor-design-pattern) with the
     - Drain task queues to prevent deadlocks.
  - `no-stop-on-error mode`: Continue processing despite an exception in one (or more) consumer(s)/worker(s).
     - Skip erroneous task and continue processing remaining tasks.
-    - Consumer (worker) with the exception is kept alive and is keeps consuming tasks.
+    - Consumer (worker) with the exception is kept alive and keeps consuming tasks.
  - Provides optional task to result correlation in either mode. See [cookbook](#cookbook) for more usage examples. 
  - Tested to prevent deadlocks.
  - Abstracts away the pattern from user; easy to [use](#usage).
@@ -75,7 +75,7 @@ def main():
     # no-stop-on-error reactor; continue processing even if one consumer fails
     # result_timeout = max time taken to complete 1 task.
     reactor = Reactor(stop_on_error=False, parallelism=2,
-                       result_timeout=10)
+                      result_timeout=10)
 
     # five tasks; will error on first one
     tasks = ['1', 2, 3, 4, 5]
@@ -117,7 +117,7 @@ def main():
 
     # stop-on-error reactor; stop processing even if one consumer fails
     reactor = Reactor(stop_on_error=True, parallelism=2,
-                       result_timeout=10)
+                      result_timeout=10)
 
     results = reactor.run(action=add_5, tasks=tasks)
 
