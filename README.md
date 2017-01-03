@@ -41,6 +41,8 @@ No external dependencies.
 
 ## Installation
 
+### Via source
+
 - Download source code.
 ```bash
 git clone https://github.com/verisign/pyreactor.git
@@ -50,6 +52,11 @@ git clone https://github.com/verisign/pyreactor.git
 ```bash
 cd pyreactor
 sudo python setup.py install
+```
+
+### Via pip
+```bash
+pip install pyreactor
 ```
 
 ## Usage
