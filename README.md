@@ -43,7 +43,7 @@ No external dependencies.
 
 - Download source code.
 ```bash
-git clone git@github.vrsn.com:EdgeopsChecks/pyreactor.git
+git clone https://github.com/verisign/pyreactor.git
 ```
 
 - Install codebase.
