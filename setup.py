@@ -13,8 +13,11 @@ setup(
     include_package_data=True,
     install_requires=[],
     # Data for PyPi.
-    url="https://github.vrsn.com/EdgeopsChecks/pyreactor",
+    url='https://github.com/verisign/pyreactor',
+    download_url='https://github.com/verisign/pyreactor/archive/v1.0.tar.gz',
     author='Kinnar Dattani',
-    author_email="kdattani@verisign.com",
+    author_email='kdattani@verisign.com',
+    keywords=['reactor pattern'],
+    classifiers=[],
     zip_safe=True,
 )

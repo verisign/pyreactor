@@ -80,7 +80,7 @@ def main():
     # five tasks; will error on first one
     tasks = ['1', 2, 3, 4, 5]
 
-    results = reactor.run(action=add_5, tasks=    tasks)
+    results = reactor.run(action=add_5, tasks=tasks)
 
     print results
     

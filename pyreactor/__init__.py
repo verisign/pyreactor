@@ -10,7 +10,7 @@ import sys
 
 import os
 
-__version__ = (0, 0, 1)
+__version__ = (1, 0, 0)
 
 # Update syspath.
 file_dir = os.path.dirname(os.path.realpath(__file__))
